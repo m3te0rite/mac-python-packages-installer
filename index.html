@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="icon.png">
+    <title>xtech | Homebrew Python Installer</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        .branding {
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            color: #000000;
+        }
+
+
+        .container {
+            width: 600px;
+            background: #181818;
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid #333;
+            box-shadow: 0 2px 16px #0008;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        input {
+            width: 95%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #222;
+            color: #fff;
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 12px 20px;
+            font-size: 1rem;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .command {
+            margin-top: 1.5rem;
+            background: #222;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            border: 1px solid #333;
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            margin-top: 0.5rem;
+            padding: 8px 14px;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .copied {
+            color: lightgreen;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="branding">XTECH</div>
+
+    <br>
+    <br>
+
+
+    <div class="container">
+        <h1>Homebrew Python Pip Command Generator</h1>
+
+        <input type="text" id="pkgInput" placeholder="Enter package name...">
+        <button onclick="generate()">Generate Command</button>
+
+        <div id="output" style="display:none;">
+            <div class="command" id="cmdBox"></div>
+            <button class="copy-btn" onclick="copyCmd()">Copy</button>
+            <div class="copied" id="copiedMsg">Copied!</div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const pkg = document.getElementById("pkgInput").value.trim();
+            if (!pkg) return;
+
+            const cmd = `/opt/homebrew/bin/python3 -m pip install ${pkg} --break-system-packages --user`;
+
+            document.getElementById("cmdBox").textContent = cmd;
+            document.getElementById("output").style.display = "block";
+            document.getElementById("copiedMsg").style.display = "none";
+        }
+
+        function copyCmd() {
+            const text = document.getElementById("cmdBox").textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const msg = document.getElementById("copiedMsg");
+                msg.style.display = "block";
+                setTimeout(() => msg.style.display = "none", 1500);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
